@@ -29,7 +29,20 @@
            
             <h2 class="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Cadastre pacientes</h2>
 
-            <form action="{% url 'pacientes' %}" method="POST" enctype='multipart/from-data'> {% csrf_token %}
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="rounded-md {{message.tags}} p-4">
+                        <div class="flex">
+                    
+                        <div class="ml-3">
+                            {{message}}
+                        </div>
+                        </div>
+                    </div>
+                <br>
+                {% endfor %}
+            {% endif %}
+            <form action="{% url 'pacientes' %}" method="POST" enctype='multipart/form-data'> {% csrf_token %}
                 <label for="nome" class="block mt-2 text-sm/6 font-medium text-gray-600">Nome</label>
                 <div class="mt-2">
                     <input type="text" name="nome" id="nome" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
@@ -74,16 +87,18 @@
             </form>
         </div>
           <ul role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
-       
+            
+            {%for paciente in pacientes%}
                 <li>
                 <div class="flex items-center gap-x-6">
-                    <img class="size-16 rounded-full" src="" alt="">
+                    <img class="size-16 rounded-full" src="{{paciente.foto.url}}" alt="">
                     <div>
-                    <a href="#" class="text-base/7 font-semibold tracking-tight text-gray-900">Caio Sampaio</a>
-                    <p class="text-sm/6 font-semibold text-indigo-600">TDAH</p>
+                    <a href="{{paciente.id}}" class="text-base/7 font-semibold tracking-tight text-gray-900">{{paciente.nome}}</a>
+                    <p class="text-sm/6 font-semibold text-indigo-600">{{paciente.queixa}}</p>
                     </div>
                 </div>
                 </li>
+                {%endfor%}
         
             
   
