@@ -53,17 +53,20 @@ class Consultas(models.Model):
     def link_publico(self):
         return f"http://127.0.0.1:8000{reverse('consulta_publica', kwargs={'id': self.id})}"
 
+    #Demorou pouquinho pra eu entender que era aqui, pouquinho
+    @property
+    def views(self):
+        views = Visualizacoes.objects.filter(consulta=self)
+        totais = views.count()
+        print("BOLAS BOLAS BOLAS")
+        print(totais)
+        unicas = views.values('ip').distinct().count()
+        print(unicas)
+        return f'{totais} - {unicas}'
 
 #pensei qeu era de outra forma, mas é daorinha, pensei que era só incrementar quantidade
 class Visualizacoes(models.Model):
     consulta = models.ForeignKey(Consultas, on_delete=models.CASCADE)
     ip = models.GenericIPAddressField()
 
-    @property
-    def views(self):
-        views = Visualizacoes.objects.filter(consulta=self)
-        totais = views.count()
-        print(totais)
-        unicas = views.values('ip').distinct().count()
-        print(unicas)
-        return f'{totais} - {unicas}'
+    

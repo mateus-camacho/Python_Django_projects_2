@@ -60,7 +60,6 @@ def paciente_view(request, id):
         registro_geral = request.POST.get('registro_geral')
         video = request.FILES.get('video')
         tarefas = request.POST.getlist('tarefas')
-        print(tarefas)
         consultas = Consultas(
             humor=int(humor),
             registro_geral=registro_geral,
